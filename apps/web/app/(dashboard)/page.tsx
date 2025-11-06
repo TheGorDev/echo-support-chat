@@ -11,19 +11,7 @@ export default function Page() {
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-svh">
-        <OrganizationSwitcher 
-        hidePersonal
-        />
-        <UserButton />        
-          <div className="gap-4 max-w-sm w-full mx-auto">
-              <Button onClick={() => addUser()}>
-                Add User
-              </Button>
-          </div>
-          <div className="max-w-sm w-full mx-auto">
-            {JSON.stringify(users, null, 2)}
-          </div>
-        <p>apps/web</p>
+        web
       </div>
     </>
   )

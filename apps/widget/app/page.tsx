@@ -9,10 +9,10 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-svh max-w-md mx-auto w-full">
-      <Button onClick={startCall} variant="success" className="mb-4">
+      <Button onClick={startCall} variant="success" className="mb-4" disabled={isConnected || isConnecting}>
         Start Call
       </Button>
-      <Button onClick={endCall} variant="destructive" className="mt-4">
+      <Button onClick={endCall} variant="destructive" className="mt-4" disabled={!isConnected && !isConnecting}>
         End Call
       </Button>
       <div className="mt-6 p-4 border rounded w-full min-h-[100px]">
