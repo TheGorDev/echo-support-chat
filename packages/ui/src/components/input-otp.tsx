@@ -6,6 +6,12 @@ import { MinusIcon } from "lucide-react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Wraps OTPInput with standardized container and input className composition.
+ *
+ * @param containerClassName - Additional class names merged into the OTP input container.
+ * @returns A React element rendering an `OTPInput` with merged `containerClassName` and `className`, and a `data-slot="input-otp"` attribute.
+ */
 function InputOTP({
   className,
   containerClassName,
@@ -26,6 +32,11 @@ function InputOTP({
   )
 }
 
+/**
+ * Renders a container for OTP input slots with standardized layout and slot metadata.
+ *
+ * @returns A `div` element that wraps OTP slot children, has `data-slot="input-otp-group"`, and applies default `flex items-center` styles merged with the provided `className`.
+ */
 function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -36,6 +47,12 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Renders a single OTP input slot for the specified index.
+ *
+ * @param index - The zero-based position of this slot within the OTP sequence; used to select the character and visual state to render.
+ * @returns A div element representing the slot that displays the current character and, when applicable, a centered blinking caret overlay.
+ */
 function InputOTPSlot({
   index,
   className,
@@ -66,6 +83,14 @@ function InputOTPSlot({
   )
 }
 
+/**
+ * Renders a visual separator used between OTP slots.
+ *
+ * The element includes a `data-slot="input-otp-separator"` attribute and `role="separator"`.
+ *
+ * @param props - Standard div props to spread onto the separator element
+ * @returns The separator element containing a minus icon
+ */
 function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   return (
     <div data-slot="input-otp-separator" role="separator" {...props}>

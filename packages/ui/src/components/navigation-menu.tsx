@@ -5,6 +5,12 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Renders a styled navigation menu root that optionally includes the floating viewport.
+ *
+ * @param viewport - Whether to render the menu viewport element; defaults to `true`.
+ * @returns The NavigationMenu root element ready to host menu items and triggers.
+ */
 function NavigationMenu({
   className,
   children,
@@ -29,6 +35,12 @@ function NavigationMenu({
   )
 }
 
+/**
+ * Renders a styled navigation menu list container.
+ *
+ * @param className - Additional CSS class names to merge with the component's default classes
+ * @returns The rendered NavigationMenuPrimitive.List element
+ */
 function NavigationMenuList({
   className,
   ...props
@@ -45,6 +57,11 @@ function NavigationMenuList({
   )
 }
 
+/**
+ * Wraps the Radix NavigationMenu `Item`, applying project-specific classes and a `data-slot` attribute.
+ *
+ * @returns A configured `NavigationMenuPrimitive.Item` React element with "relative" merged into `className` and `data-slot="navigation-menu-item"`.
+ */
 function NavigationMenuItem({
   className,
   ...props
@@ -62,6 +79,14 @@ const navigationMenuTriggerStyle = cva(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
 )
 
+/**
+ * Renders a styled trigger for the navigation menu that displays its children and a chevron icon.
+ *
+ * The chevron icon rotates when the menu is open. The trigger's className is merged with the
+ * component's default trigger styles.
+ *
+ * @returns The rendered NavigationMenu trigger element
+ */
 function NavigationMenuTrigger({
   className,
   children,
@@ -82,6 +107,15 @@ function NavigationMenuTrigger({
   )
 }
 
+/**
+ * Renders a styled navigation menu content panel with animation and viewport-aware layout.
+ *
+ * Renders a NavigationMenuPrimitive.Content element configured with the component's animation,
+ * positioning, and viewport-specific styling classes.
+ *
+ * @param className - Additional class names to merge with the component's default styles
+ * @returns The rendered navigation menu content element
+ */
 function NavigationMenuContent({
   className,
   ...props
@@ -99,6 +133,12 @@ function NavigationMenuContent({
   )
 }
 
+/**
+ * Renders the navigation menu viewport positioned below the menu and sized using Radix viewport CSS variables.
+ *
+ * @param className - Additional CSS classes to append to the viewport container
+ * @returns The NavigationMenu viewport element positioned under the menu
+ */
 function NavigationMenuViewport({
   className,
   ...props
@@ -121,6 +161,12 @@ function NavigationMenuViewport({
   )
 }
 
+/**
+ * Renders a styled navigation menu link with project-specific classes and a data-slot attribute.
+ *
+ * @param className - Additional class names to merge with the component's default styling.
+ * @returns The `NavigationMenuPrimitive.Link` element with merged classes and `data-slot="navigation-menu-link"`.
+ */
 function NavigationMenuLink({
   className,
   ...props
@@ -137,6 +183,12 @@ function NavigationMenuLink({
   )
 }
 
+/**
+ * Renders the visual triangular indicator positioned beneath an active navigation item.
+ *
+ * @param className - Additional CSS class names to apply to the indicator container.
+ * @returns The rendered navigation menu indicator element.
+ */
 function NavigationMenuIndicator({
   className,
   ...props

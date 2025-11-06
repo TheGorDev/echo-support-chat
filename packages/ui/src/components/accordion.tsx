@@ -6,12 +6,24 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Renders a Radix UI Accordion root element with a data-slot of "accordion".
+ *
+ * @param props - Props forwarded to the underlying AccordionPrimitive.Root
+ * @returns A React element representing the Accordion root
+ */
 function Accordion({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />
 }
 
+/**
+ * Renders an accordion item element with a default bottom border and forwards all received props.
+ *
+ * @param className - Additional CSS class names to merge with the default "border-b last:border-b-0" classes
+ * @returns The rendered accordion item element
+ */
 function AccordionItem({
   className,
   ...props
@@ -25,6 +37,13 @@ function AccordionItem({
   )
 }
 
+/**
+ * Renders an accordion trigger with a trailing chevron icon and preset styling.
+ *
+ * @param className - Additional CSS classes to merge with the component's default styles.
+ * @param children - Content displayed inside the trigger, rendered before the chevron icon.
+ * @returns The rendered accordion trigger element with applied styles and forwarded props.
+ */
 function AccordionTrigger({
   className,
   children,
@@ -47,6 +66,13 @@ function AccordionTrigger({
   )
 }
 
+/**
+ * Render a styled accordion content region with state-based open/close animations and internal padding.
+ *
+ * @param className - Additional CSS classes applied to the inner content wrapper.
+ * @param children - Elements rendered inside the accordion panel.
+ * @returns The AccordionPrimitive.Content element with animation classes, overflow handling, `text-sm` sizing, and an inner div that applies top/bottom padding and the provided `className`.
+ */
 function AccordionContent({
   className,
   children,

@@ -5,6 +5,12 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Renders a progress track with a filling indicator positioned according to `value`.
+ *
+ * @param value - Progress percentage from 0 to 100; if omitted, treated as 0.
+ * @returns A progress track element whose indicator is translated horizontally to represent `value` percent filled.
+ */
 function Progress({
   className,
   value,

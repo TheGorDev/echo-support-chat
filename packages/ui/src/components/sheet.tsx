@@ -6,28 +6,56 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Renders the sheet root element and forwards all received props to it.
+ *
+ * @param props - Props to pass through to the underlying sheet root element
+ * @returns A React element representing the sheet root
+ */
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
+/**
+ * Renders the Sheet trigger and forwards all received props.
+ *
+ * @param props - Props forwarded to the trigger element; `data-slot="sheet-trigger"` is applied automatically.
+ * @returns A React element for the Sheet trigger with `data-slot="sheet-trigger"`.
+ */
 function SheetTrigger({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
+/**
+ * Renders a close control for the Sheet and applies `data-slot="sheet-close"`.
+ *
+ * @returns A JSX element representing the sheet close control that forwards received props.
+ */
 function SheetClose({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Close>) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
 }
 
+/**
+ * Renders the portal that hosts sheet content and applies `data-slot="sheet-portal"`.
+ *
+ * @returns The portal element used to mount sheet children.
+ */
 function SheetPortal({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
 }
 
+/**
+ * Overlay backdrop for the Sheet with default translucent background and entrance/exit animations.
+ *
+ * @param className - Additional CSS classes to append to the overlay's default classes
+ * @returns A JSX element for the sheet overlay with default backdrop and animation classes
+ */
 function SheetOverlay({
   className,
   ...props
@@ -44,6 +72,14 @@ function SheetOverlay({
   )
 }
 
+/**
+ * Renders sheet content inside a portal with an overlay and an accessible close control, sliding in from the specified side.
+ *
+ * @param className - Additional CSS classes to append to the content container.
+ * @param children - Elements rendered inside the sheet.
+ * @param side - Edge from which the sheet appears: `"top"`, `"right"`, `"bottom"`, or `"left"`. Defaults to `"right"`.
+ * @returns The composed sheet content element (portal + overlay + content) with a positioned close button.
+ */
 function SheetContent({
   className,
   children,
@@ -81,6 +117,12 @@ function SheetContent({
   )
 }
 
+/**
+ * Renders the header container for a Sheet, used to group title and related controls.
+ *
+ * @param className - Additional CSS classes appended to the header container
+ * @returns The header element for the sheet with `data-slot="sheet-header"`
+ */
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -91,6 +133,12 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Footer container for a Sheet that applies default layout, spacing, and gap.
+ *
+ * @param className - Additional CSS classes appended to the default footer styles
+ * @returns The rendered `div` element used as the sheet footer (forwards other `div` props)
+ */
 function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -101,6 +149,11 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Renders a sheet title element with default typography and forwarded props.
+ *
+ * @returns The sheet title element with `text-foreground` and `font-semibold` classes applied and any provided props merged.
+ */
 function SheetTitle({
   className,
   ...props
@@ -114,6 +167,12 @@ function SheetTitle({
   )
 }
 
+/**
+ * Renders the sheet description element with default typography and a `data-slot` attribute for composition.
+ *
+ * @param className - Additional CSS class names to append to the default styles.
+ * @returns The sheet description element with merged classes and `data-slot="sheet-description"`.
+ */
 function SheetDescription({
   className,
   ...props
