@@ -3,6 +3,14 @@
 import { useVapi } from '@/modules/widget/hooks/use-vapi';
 import { Button } from '@workspace/ui/components/button';
 
+/**
+ * Renders a page with controls to start and end a call and a panel displaying connection state and transcript.
+ *
+ * The UI includes "Start Call" and "End Call" buttons and a content area showing `isConnected`, `isConnecting`,
+ * `isSpeaking`, and the `transcript` as formatted JSON.
+ *
+ * @returns The component's JSX element that renders call controls and the connection/transcript panel.
+ */
 export default function Page() {
 
   const {isSpeaking, isConnected, isConnecting, transcript, startCall, endCall} = useVapi();
