@@ -17,6 +17,14 @@ const ToggleGroupContext = React.createContext<
   spacing: 0,
 })
 
+/**
+ * Render a toggle group container that supplies `variant`, `size`, and `spacing` to its items and applies group-level styling.
+ *
+ * @param variant - Visual variant to apply to the group and propagate to child items (e.g., `"default"`, `"outline"`).
+ * @param size - Size token to apply to the group and propagate to child items (e.g., `"sm"`, `"default"`, `"lg"`).
+ * @param spacing - Numeric gap value used to set the group's `--gap` CSS custom property; `0` (default) disables spacing and enables zero-spacing visual adjustments.
+ * @returns A React element representing the toggle group root with context-provided styling props for its children.
+ */
 function ToggleGroup({
   className,
   variant,
@@ -48,6 +56,13 @@ function ToggleGroup({
   )
 }
 
+/**
+ * Renders a toggle group item that resolves its visual `variant`, `size`, and `spacing` from context or explicit props and applies the corresponding data attributes and composed classes.
+ *
+ * @param variant - Optional visual variant to apply when no context value is provided.
+ * @param size - Optional visual size to apply when no context value is provided.
+ * @returns The ToggleGroup item element with resolved styling, data attributes, and passed-through props.
+ */
 function ToggleGroupItem({
   className,
   children,

@@ -24,6 +24,12 @@ type ChartContextProps = {
 
 const ChartContext = React.createContext<ChartContextProps | null>(null)
 
+/**
+ * Access the chart context provided by a surrounding ChartContainer.
+ *
+ * @returns The ChartContext value for the current chart (object with a `config` property).
+ * @throws If called outside of a <ChartContainer /> (no chart context available).
+ */
 function useChart() {
   const context = React.useContext(ChartContext)
 
@@ -34,6 +40,18 @@ function useChart() {
   return context
 }
 
+/**
+ * Wraps chart markup with a context provider, theming style, and a Recharts responsive container.
+ *
+ * Provides ChartContext with the given `config`, injects a scoped chart ID (exposed via the `data-chart` attribute),
+ * renders generated CSS variables for configured colors via ChartStyle, and places `children` inside a Recharts ResponsiveContainer.
+ *
+ * @param id - Optional identifier used to construct the chart's `data-chart` value; when omitted a stable unique id is generated.
+ * @param className - Additional CSS classes applied to the container element.
+ * @param children - Elements rendered inside Recharts' ResponsiveContainer (chart components).
+ * @param config - Per-series configuration (labels, icons, colors/themes) consumed by ChartStyle, tooltips, and legend components.
+ * @returns The rendered chart container element wired with ChartContext and theming styles.
+ */
 function ChartContainer({
   id,
   className,
@@ -104,6 +122,22 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+/**
+ * Render chart tooltip content using the chart's configuration and the Recharts payload.
+ *
+ * Renders an optional label and a list of payload items with per-item icons, colored indicators (dot/line/dashed), labels, and formatted values; respects per-chart config (labels, icons, theme colors) obtained from context.
+ *
+ * @param indicator - Visual style for item indicators: `"dot"`, `"line"`, or `"dashed"`.
+ * @param hideLabel - If true, suppresses the top-level label in the tooltip.
+ * @param hideIndicator - If true, hides the default colored indicator for items (custom icons still render).
+ * @param nameKey - Alternative payload key to use when resolving an item's name for config lookup.
+ * @param labelKey - Alternative payload key to use when resolving the tooltip label for config lookup.
+ * @param labelFormatter - Formatter function to render the top-level label; receives the resolved label and the full payload.
+ * @param labelClassName - Additional class name applied to the rendered top-level label element.
+ * @param formatter - Custom render function for an individual payload item; receives (value, name, entry, index, payloadEntry).
+ * @param color - Fallback color used for indicators when an item does not provide one.
+ * @returns A React element containing the formatted tooltip content, or `null` when the tooltip is inactive or has no payload.
+ */
 function ChartTooltipContent({
   active,
   payload,
@@ -252,6 +286,19 @@ function ChartTooltipContent({
 
 const ChartLegend = RechartsPrimitive.Legend
 
+/**
+ * Render legend items for a chart, resolving per-item labels and icons from the chart configuration.
+ *
+ * Renders a horizontal legend row (aligned top or bottom) containing one entry per payload item
+ * (skipping items with type `"none"`). Each entry shows either a configured icon or a colored square
+ * and the resolved label from the chart configuration.
+ *
+ * @param hideIcon - If `true`, always render a colored square instead of any configured icon.
+ * @param payload - Legend payload items from Recharts; if empty or missing, the component returns `null`.
+ * @param verticalAlign - Vertical alignment of the legend row; `"top"` adds bottom padding, otherwise top padding is used.
+ * @param nameKey - Optional override key used to resolve per-item configuration from the chart config when payload keys differ.
+ * @returns A React element containing legend entries, or `null` when there is no payload.
+ */
 function ChartLegendContent({
   className,
   hideIcon = false,
@@ -308,7 +355,16 @@ function ChartLegendContent({
   )
 }
 
-// Helper to extract item config from a payload.
+/**
+ * Resolve and return the chart item configuration corresponding to a payload entry.
+ *
+ * Examines `payload` (and an inner `payload.payload` if present) for a string mapping for `key`; if found, uses that mapped key to look up and return the matching entry from `config`. If no mapping exists, returns `config[key]`. Returns `undefined` when `payload` is not an object or when no matching config entry exists.
+ *
+ * @param config - Chart configuration map keyed by series/field name
+ * @param payload - A Recharts payload item (or similar) that may contain a mapping for `key`; may include an inner `payload` object
+ * @param key - The property name to resolve from `payload` or to fall back to when looking up `config`
+ * @returns The matching configuration entry from `config`, or `undefined` if none is found
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

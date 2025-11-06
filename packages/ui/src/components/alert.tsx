@@ -19,6 +19,13 @@ const alertVariants = cva(
   }
 )
 
+/**
+ * Render a themed alert container with ARIA role and data-slot markers.
+ *
+ * @param className - Additional CSS classes to merge with the variant classes
+ * @param variant - Visual variant of the alert (e.g., "default" or "destructive")
+ * @returns A div element configured as the alert container with merged classes and forwarded props
+ */
 function Alert({
   className,
   variant,
@@ -34,6 +41,11 @@ function Alert({
   )
 }
 
+/**
+ * Renders the alert title slot with default typography and layout classes.
+ *
+ * @returns A `div` element with `data-slot="alert-title"`, default title styling and layout classes; forwards any additional `div` props (including `className`) to the element.
+ */
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -47,6 +59,13 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Defines the alert description slot with muted typography and relaxed line-height.
+ *
+ * Additional HTML div props (including `className`) are applied to the rendered element.
+ *
+ * @returns A `div` element with `data-slot="alert-description"` and composed description/layout classes
+ */
 function AlertDescription({
   className,
   ...props

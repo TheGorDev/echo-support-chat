@@ -11,6 +11,20 @@ import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
 import { cn } from "@workspace/ui/lib/utils"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 
+/**
+ * A themed calendar component that wraps DayPicker with the project's styling, className mappings, and component overrides.
+ *
+ * Accepts DayPicker props and merges provided classNames, formatters, and components with sensible defaults tailored to the workspace UI.
+ *
+ * @param className - Additional CSS class names applied to the calendar container.
+ * @param classNames - Mapping of DayPicker subelement class names that will be merged with component defaults.
+ * @param showOutsideDays - When true, renders days from adjacent months inside the current month view.
+ * @param captionLayout - Layout style for the month caption (e.g., `"label"` or `"dropdown"`).
+ * @param buttonVariant - Variant to apply to the navigation buttons (for the shared Button component).
+ * @param formatters - Custom formatters merged with the component's default formatters (e.g., month dropdown formatting).
+ * @param components - Component overrides merged with the component's default subcomponent implementations.
+ * @returns A React element rendering a DayPicker instance configured with the workspace's visual styles and behavior.
+ */
 function Calendar({
   className,
   classNames,
@@ -175,6 +189,17 @@ function Calendar({
   )
 }
 
+/**
+ * Renders a styled calendar day button that reflects selected, range, and focus states.
+ *
+ * The button auto-focuses when `modifiers.focused` is true and exposes data attributes
+ * (`data-day`, `data-selected-single`, `data-range-start`, `data-range-end`, `data-range-middle`)
+ * used for styling and state hooks.
+ *
+ * @param day - The day object from react-day-picker representing the date for this button.
+ * @param modifiers - Modifier flags (e.g., `selected`, `range_start`, `range_end`, `range_middle`, `focused`) that control visual state and focus behavior.
+ * @returns The rendered day button element for the calendar.
+ */
 function CalendarDayButton({
   className,
   day,

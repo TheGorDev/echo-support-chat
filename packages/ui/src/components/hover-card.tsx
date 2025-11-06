@@ -5,12 +5,24 @@ import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Wraps the Radix HoverCard root element and attaches a data-slot attribute for identification.
+ *
+ * @param props - Props forwarded to `HoverCardPrimitive.Root`
+ * @returns The rendered HoverCard root element with `data-slot="hover-card"`
+ */
 function HoverCard({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Root>) {
   return <HoverCardPrimitive.Root data-slot="hover-card" {...props} />
 }
 
+/**
+ * Renders a hover-card trigger element and forwards all received props.
+ *
+ * @param props - Props forwarded to the underlying trigger element.
+ * @returns A trigger element with `data-slot="hover-card-trigger"` and the forwarded props.
+ */
 function HoverCardTrigger({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {
@@ -19,6 +31,18 @@ function HoverCardTrigger({
   )
 }
 
+/**
+ * Renders the styled content area for a hover card inside a Portal.
+ *
+ * Merges provided class names with the component's default styling, and forwards
+ * remaining props to Radix's HoverCard.Content.
+ *
+ * @param className - Additional CSS class names to merge with the default styles.
+ * @param align - Alignment of the content relative to the trigger; default: `"center"`.
+ * @param sideOffset - Distance in pixels between the trigger and content; default: `4`.
+ * @param props - Additional props forwarded to `HoverCardPrimitive.Content`.
+ * @returns The hover card content element wrapped in a Portal.
+ */
 function HoverCardContent({
   className,
   align = "center",

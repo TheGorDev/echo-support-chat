@@ -5,6 +5,18 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Render a configurable slider component that displays one or more thumbs based on the provided values.
+ *
+ * Renders a styled Slider using Radix UI primitives; the number of thumbs equals the length of the active values array (derived from `value`, `defaultValue`, or `[min, max]`).
+ *
+ * @param className - Additional class names to apply to the slider root
+ * @param defaultValue - Initial slider value or values for uncontrolled usage
+ * @param value - Controlled slider value or values
+ * @param min - Minimum slider value (defaults to 0)
+ * @param max - Maximum slider value (defaults to 100)
+ * @returns The rendered Slider component element
+ */
 function Slider({
   className,
   defaultValue,

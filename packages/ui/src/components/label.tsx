@@ -5,6 +5,14 @@ import * as LabelPrimitive from "@radix-ui/react-label"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Render a stylable label element using Radix UI's Label primitive.
+ *
+ * Merges a default set of layout, typography, and disabled-state utility classes with an optional `className`, sets `data-slot="label"`, and forwards remaining props to the underlying `LabelPrimitive.Root`.
+ *
+ * @param className - Additional CSS classes to merge with the component's default classes
+ * @returns The rendered `LabelPrimitive.Root` element
+ */
 function Label({
   className,
   ...props

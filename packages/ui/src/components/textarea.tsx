@@ -2,6 +2,13 @@ import * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Renders a styled native textarea element with the component's default classes.
+ *
+ * @param className - Additional CSS class names to merge with the default styling
+ * @param props - Other standard textarea attributes and event handlers to spread onto the element
+ * @returns The configured textarea DOM element
+ */
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea
