@@ -90,7 +90,7 @@ export const DashboardSidebar = () => {
                             skipInvitationScreen 
                             appearance={{
                                 elements: {
-                                    rootBox: "w-full! h-8!",
+                                    rootBox: "w-full! h-8! pt-3!",
                                     avatarBox: "size-8! rouneded-sm!",
                                     organizationSwitcherTrigger: "w-full! justify-start! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground!",
                                     organizationPreview: "group-data-[collapsible=icon]:justify-center! gap-2!",
@@ -116,9 +116,15 @@ export const DashboardSidebar = () => {
                                         asChild
                                         isActive={isActive(item.url)}
                                         tooltip={item.title}
+                                        className={cn(
+                                            isActive(item.url) && "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! hover:to-[#0b63f3]/90! text-sidebar-primary-foreground!"
+                                        )}
                                     >
                                         <Link href={item.url}>
-                                            <item.icon className="size-4" />
+                                            <item.icon className={cn(
+                                            "size-4",
+                                            isActive(item.url) && "size-5!"
+                                        )} />
                                             <span>{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>
@@ -139,9 +145,15 @@ export const DashboardSidebar = () => {
                                         asChild
                                         isActive={isActive(item.url)}
                                         tooltip={item.title}
+                                        className={cn(
+                                            isActive(item.url) && "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! hover:to-[#0b63f3]/90! text-sidebar-primary-foreground!"
+                                        )}
                                     >
                                         <Link href={item.url}>
-                                            <item.icon className="size-4" />
+                                            <item.icon className={cn(
+                                            "size-4",
+                                            isActive(item.url) && "size-5!"
+                                        )} />
                                             <span>{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>
@@ -162,9 +174,15 @@ export const DashboardSidebar = () => {
                                         asChild
                                         isActive={isActive(item.url)}
                                         tooltip={item.title}
+                                        className={cn(
+                                            isActive(item.url) && "bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! hover:to-[#0b63f3]/90! text-sidebar-primary-foreground!"
+                                        )}
                                     >
                                         <Link href={item.url}>
-                                            <item.icon className="size-4" />
+                                            <item.icon className={cn(
+                                            "size-4",
+                                            isActive(item.url) && "size-5!"
+                                        )} />
                                             <span>{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>
