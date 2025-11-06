@@ -11,7 +11,7 @@ export const add = mutation({
     args: {},
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
-        const orgId = identity?.orgId as string | null;
+        const orgId = identity?.orgId as string || null;
         
         if(!orgId) {
             throw new Error("Missing organization");
@@ -20,6 +20,7 @@ export const add = mutation({
         if(identity === null) {
             throw new Error("Not authenticated");
         }
+
         return await ctx.db.insert("users", {
             name: `New user ${Math.floor(Math.random() * 1000)}`
         })
