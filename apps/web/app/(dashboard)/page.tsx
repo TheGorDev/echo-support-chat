@@ -5,6 +5,13 @@ import {useMutation, useQuery} from "convex/react";
 import {api} from "@workspace/backend/_generated/api";
 import {Button} from "@workspace/ui/components/button";
 
+/**
+ * Page component that displays organization controls, a user action, and the fetched users list.
+ *
+ * Renders an OrganizationSwitcher with personal organizations hidden, a Clerk UserButton, a Button that triggers the add-user mutation, the JSON-formatted users data fetched from the backend, and the text "apps/web".
+ *
+ * @returns The React element for the page layout described above.
+ */
 export default function Page() {
   const users = useQuery(api.users.getMany);
   const addUser = useMutation(api.users.add)
