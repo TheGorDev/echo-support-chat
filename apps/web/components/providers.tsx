@@ -13,6 +13,16 @@ if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL || "")
 
+/**
+ * Wraps application UI with theme, Convex, and Clerk providers.
+ *
+ * The returned element applies a class-based theme (defaulting to dark), preserves system theme support,
+ * disables transitions on theme changes, and enables color-scheme handling. It also provides a Convex client
+ * integrated with Clerk authentication to all descendants.
+ *
+ * @param children - The React nodes to render inside the providers.
+ * @returns A React element that renders `children` within NextThemesProvider and ConvexProviderWithClerk.
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextThemesProvider
