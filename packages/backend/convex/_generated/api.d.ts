@@ -8,7 +8,10 @@
  * @module
  */
 
+import type * as crons from "../crons.js";
+import type * as private_functions from "../private/functions.js";
 import type * as public_contactSessions from "../public/contactSessions.js";
+import type * as public_conversations from "../public/conversations.js";
 import type * as public_organizations from "../public/organizations.js";
 import type * as users from "../users.js";
 
@@ -27,7 +30,10 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  crons: typeof crons;
+  "private/functions": typeof private_functions;
   "public/contactSessions": typeof public_contactSessions;
+  "public/conversations": typeof public_conversations;
   "public/organizations": typeof public_organizations;
   users: typeof users;
 }>;
