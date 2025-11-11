@@ -4,6 +4,8 @@ import {ConvexError, v} from "convex/values"
 import { internal } from "../_generated/api.js";
 import { supportAgent } from "../system/ai/agents/supportAgent.js";
 import { paginationOptsValidator } from "convex/server";
+import {components} from "@workspace/backend/_generated/api.js"
+import { saveMessage } from "@convex-dev/agent"
 
 export const create = action({
     args: {
@@ -18,14 +20,23 @@ export const create = action({
         const conversation = await ctx.runQuery(internal.system.conversations.getByThreadId, {threadId: args.threadId})
         if(!conversation) throw new ConvexError({code: "NOT_FOUND", message: "Conversation not found"})
 
-        console.log("ARGS ", {args, contactSession, conversation, ctx})
-
         if(conversation.status === "resolved") throw new ConvexError({code: "BAD_REQUEST", message: "Conversation resolved"})
 
-        await supportAgent.generateText(ctx,
-            {threadId: args.threadId},
-            {prompt: args.prompt}
-        )
+        if(conversation.status === "escalated") {
+            await saveMessage(ctx, components.agent, {
+            threadId: conversation.threadId,
+            agentName: contactSession.name,
+            message: {
+                role: "user",
+                content: args.prompt,
+            },
+            });
+        } else {
+            await supportAgent.generateText(ctx,
+                {threadId: args.threadId},
+                {prompt: args.prompt}
+            )
+        }
 
     }
 })

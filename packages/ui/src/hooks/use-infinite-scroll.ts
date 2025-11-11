@@ -34,7 +34,7 @@ export const useInfiniteScroll = ({status, loadMore, loadSize = 10, observeEnabl
         handleLoadMore,
         canLoadMore: status === "CanLoadMore",
         isLoadingMore: status === "LoadingMore",
-        isLoadingFirsPage: status === "LoadingFirsPage",
+        isLoadingFirsPage: status === "LoadingFirstPage",
         isExhausted: status === "Exhausted"
     }
 }

@@ -53,7 +53,7 @@ export const ConversationsPannel = () => {
 
 
   return ( 
-    <div className='flex h-full w-full flex-col bg-background text-sidebar-foreground'>
+    <div className='flex h-screen w-full flex-col bg-background text-sidebar-foreground overflow-y-auto'>
         <div className='flex flex-col gap-3.5 border-b p-2'>
             <Select
                 defaultValue='all'
