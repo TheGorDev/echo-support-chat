@@ -34,6 +34,15 @@ function TooltipTrigger({
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
+/**
+ * Renders tooltip content inside a portal with themed styling and an adjustable side offset.
+ *
+ * @param className - Additional CSS classes to merge with the component's default styling
+ * @param sideOffset - Distance to offset the content from the trigger; defaults to `0`
+ * @param children - Content to render inside the tooltip
+ * @param props - Additional props forwarded to the underlying `TooltipPrimitive.Content`
+ * @returns The tooltip content element rendered within a portal
+ */
 function TooltipContent({
   className,
   sideOffset = 0,
