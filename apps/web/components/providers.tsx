@@ -23,7 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableColorScheme
     >
         <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        {children}
+            {children}
         </ConvexProviderWithClerk>
     </NextThemesProvider>
   )
