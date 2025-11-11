@@ -17,9 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableColorScheme
     >
       <ConvexProvider client={convex}>
-        <Provider>
-          {children}
-        </Provider>
+          <Provider>
+            {children}
+          </Provider>
       </ConvexProvider>
     </NextThemesProvider>
   )

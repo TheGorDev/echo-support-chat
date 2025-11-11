@@ -2,7 +2,9 @@ import {mutation, query} from "@workspace/backend/_generated/server.js"
 import {components} from "@workspace/backend/_generated/api.js"
 import {ConvexError, v} from "convex/values"
 import {supportAgent} from "@workspace/backend/system/ai/agents/supportAgent.js"
-import { saveMessage } from "@convex-dev/agent"
+import { MessageDoc, saveMessage } from "@convex-dev/agent"
+import { paginationOptsValidator } from "convex/server"
+import { Organization } from "@clerk/backend"
  
 export const getOne = query({
     args: {
@@ -22,6 +24,55 @@ export const getOne = query({
             status: conversation.status,
             threadId: conversation.threadId
         }
+    }
+})
+
+export const getMany = query({
+    args: {
+        contactSessionId: v.id("contactSessions"),
+        paginationOpts: paginationOptsValidator
+    },
+    handler: async (ctx, args) => {
+        const contactSession = await ctx.db.get(args.contactSessionId)
+        if(!contactSession || contactSession.expiresAt < Date.now()) throw new ConvexError({code: "UNATHORIZED", message: "Invalid session"})
+
+        const conversations = await ctx.db.query("conversations")
+            .withIndex("by_contact_session_id", (q) => q.eq("contactSessionId", args.contactSessionId))
+            .order("desc")
+            .paginate(args.paginationOpts)
+
+        const conversationsWithLastMessage = await Promise.all(
+            conversations.page.map(async (conversation) => {
+                let lastMessage: MessageDoc | null = null;
+
+                const messages = await supportAgent.listMessages(ctx, {
+                    threadId: conversation.threadId,
+                    paginationOpts: {
+                        numItems: 1,
+                        cursor: null
+                    }
+                })
+
+                if(messages.page.length) {
+                    lastMessage = messages.page[0] ?? null
+                }
+
+                return {
+                    _id: conversation._id,
+                    _creationTime: conversation._creationTime,
+                    status: conversation.status,
+                    organizationId: conversation.organizationId,
+                    threadId: conversation.threadId,
+                    lastMessage
+                }
+            })
+        )
+
+        return {
+            ...conversations,
+            page: conversationsWithLastMessage
+        }
+        
     }
 })
 
