@@ -26,8 +26,7 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
-  //TODO: test id
-  const organizationId = "org_356MGZx07N8Amfs2YxGp6L5Sghz";
+
 
 const WigetAuthScreen = () => {
   const organizationId = useAtomValue(organizationIdAtom)

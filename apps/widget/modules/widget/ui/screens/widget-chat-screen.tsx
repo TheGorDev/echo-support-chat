@@ -37,6 +37,11 @@ import {
   AISuggestions
 } from "@workspace/ui/components/ai/suggestion"
 
+import {DicebearAvatar} from "@workspace/ui/components/dicebear-avatar"
+
+import {useInfiniteScroll} from "@workspace/ui/hooks/use-infinite-scroll"
+import {InfiniteScrollTrigger} from "@workspace/ui/components/infinite-scroll-trigger"
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import {z} from "zod"
 import {useForm} from "react-hook-form"
@@ -63,6 +68,12 @@ export const WidgetChatScreen = () => {
     conversation?.threadId && contactSessionId ? {threadId: conversation?.threadId, contactSessionId} : "skip",
     {initialNumItems: 10}
   )
+
+  const { topElementRef, handleLoadMore, canLoadMore, isLoadingMore } = useInfiniteScroll({
+    status: messages.status,
+    loadMore: messages.loadMore,
+    loadSize: 10
+  })
 
   const onBack = () => {
     setConversationId(null)
@@ -115,6 +126,12 @@ export const WidgetChatScreen = () => {
 
       <AIConversation>
         <AIConversationContent>
+          <InfiniteScrollTrigger 
+            canLoadMore={canLoadMore}
+            isLoadingMore={isLoadingMore}
+            onLoadMore={handleLoadMore}
+            ref={topElementRef}
+          />
           {toUIMessages(messages.results ?? [])?.map(message => {
             return (
               <AIMessage
@@ -126,6 +143,19 @@ export const WidgetChatScreen = () => {
                     {message.text}
                   </AIResponse>
                 </AIMessageContent>
+                {message.role === "assistant" && (
+                  <DicebearAvatar 
+                    imageUrl="./logo.svg"
+                    seed="assistant"
+                    size={32}
+                  />
+                )}
+                {message.role === "user" && (
+                  <DicebearAvatar 
+                    seed="assistant"
+                    size={32}
+                  />
+                )}
               </AIMessage>
             )
           })}
