@@ -8,6 +8,7 @@ import { WidgetErrorScreen } from '@/modules/widget/ui/screens/widget-error-scre
 import { WidgetLoadingScreen } from '@/modules/widget/ui/screens/widget-loading-screen'
 import { WidgeSelectionScreen } from '@/modules/widget/ui/screens/widget-selection-screen'
 import { WidgetChatScreen } from '@/modules/widget/ui/screens/widget-chat-screen'
+import { WidgetInboxScreen } from '@/modules/widget/ui/screens/widget-inbox-screen'
 
 interface Props {
     oranizationId: string
@@ -21,7 +22,7 @@ export const WidgetView = ({oranizationId}: Props) => {
     "selection": <WidgeSelectionScreen />,
     "voice": <p>TODO: Voice</p>,
     "auth": <WigetAuthScreen />,
-    "inbox": <p>TODO: Inbox</p>,
+    "inbox": <WidgetInboxScreen />,
     "chat": <WidgetChatScreen />,
     "contacts": <p>TODO: contacts</p>
   }
