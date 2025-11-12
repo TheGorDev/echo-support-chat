@@ -31,7 +31,7 @@ import {cn} from "@workspace/ui/lib/utils"
 const customerSupportItems = [
     {
         title: "Conversations",
-        url: "/converstions",
+        url: "/conversations",
         icon: InboxIcon
     },
     {

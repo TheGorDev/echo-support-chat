@@ -108,9 +108,9 @@ export const ConversationsPannel = () => {
                                     <Link 
                                         href={`/conversations/${conversation._id}`}
                                         key={conversation._id}
-                                        className={cn("relative flex cursor-pointer items-start gap-3 border-b p-4 py-5 text-sm leading-tight hover:bg-accent hover:text-accent-foreground", pathName === `/conversations/${conversation._id}` && "bg-accent text-accent-foreground", lastMessageFromOperator && "bg-accent/50")}
+                                        className={cn("relative flex cursor-pointer items-start gap-3 border-b p-4 py-5 text-sm leading-tight hover:bg-accent hover:text-accent-foreground", pathName === `/conversations/${conversation._id}` && "bg-accent/35 text-accent-foreground", lastMessageFromOperator && "bg-accent/50")}
                                     >
-                                        <div className={cn("-translate-y-1/2 absolute top-1/2 left-0 h-[64%] w-1 rounded-r-full bg-natural-300 opacity-0 transition-opacity", pathName === `/conversations/${conversation._id}` && "opacity-100")} />
+                                        <div className={cn("-translate-y-1/2 absolute top-1/2 left-0 h-[64%] w-1 rounded-r-full bg-accent opacity-0 transition-opacity", pathName === `/conversations/${conversation._id}` && "opacity-100")} />
                                         <DicebearAvatar 
                                             seed={conversation.contactSession._id}
                                             badgeImageUrl={countryFlagUrl}
