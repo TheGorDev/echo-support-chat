@@ -1,9 +1,51 @@
-import { mutation, query } from "@workspace/backend/_generated/server.js";
+import { mutation, query, action } from "@workspace/backend/_generated/server.js";
 import { ConvexError, v } from "convex/values";
 import { supportAgent } from "../system/ai/agents/supportAgent.js";
 import {components} from "@workspace/backend/_generated/api.js"
 import { saveMessage } from "@convex-dev/agent"
 import { paginationOptsValidator } from "convex/server";
+import {generateText} from "ai"
+import {openai} from "@ai-sdk/openai"
+
+export const enhanceResponse = action({
+  args: {
+    prompt: v.string()
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity === null) {
+      throw new ConvexError({
+        code: "UNATHORIZED",
+        message: "Identity not found",
+      });
+    }
+
+    const orgId = identity.orgId as string;
+    if (orgId === null) {
+      throw new ConvexError({
+        code: "UNATHORIZED",
+        message: "Organization not found",
+      });
+    }
+
+    const response = await generateText({
+      model: openai("gpt-4o-mini"),
+      messages: [
+        {
+          role: "system",
+          content: "Enhance the operator's message to be more profeccional, clear, and helpful while maintaining their intent and key information."
+        },
+        {
+          role: "user",
+          content: args.prompt
+        }
+      ]
+    })
+
+    return response.text
+
+  }
+})
 
 export const create = mutation({
   args: {
@@ -46,6 +88,12 @@ export const create = mutation({
         code: "BAD_REQUEST",
         message: "Conversation resolved",
       });
+
+    if(conversation.status !== "escalated") {
+        await ctx.db.patch(args.conversationId, {
+        status: "escalated"
+    })
+    }
 
     await saveMessage(ctx, components.agent, {
       threadId: conversation.threadId,
