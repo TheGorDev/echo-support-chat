@@ -274,7 +274,7 @@ export const ConversationIdViewLoading = () => {
                 )}
               >
                 <Skeleton
-                  className={`h-9 ${width} reounded-lg bg-neutral-200`}
+                  className={`h-9 ${width} rounded-lg bg-neutral-200`}
                 />
                 <Skeleton className="size-8 rounded-full bg-neutral-200" />
               </div>
