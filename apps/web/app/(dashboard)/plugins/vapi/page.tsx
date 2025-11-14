@@ -1,11 +1,8 @@
+import { VapiView } from '@/modules/plugins/ui/views/vapi-view'
 import React from 'react'
 
 function Page() {
-  return (
-    <div>
-      Vapi
-    </div>
-  )
+  return <VapiView />
 }
 
 export default Page
