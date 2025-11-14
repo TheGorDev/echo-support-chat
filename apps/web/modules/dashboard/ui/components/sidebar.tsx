@@ -55,7 +55,7 @@ const configurationItems = [
     {
         title: "Voice Assistant",
         url: "/plugins/vapi",
-        icon: Mic
+        icon: "/vapi.jpg"
     }
 ]
 
@@ -150,10 +150,17 @@ export const DashboardSidebar = () => {
                                         )}
                                     >
                                         <Link href={item.url}>
+                                        {item.icon === "/vapi.jpg" ? (
+                                            <Image src={item.icon as string} alt="vapi" width={24} height={24} className={cn(
+                                            "size-4",
+                                            isActive(item.url) && "size-5!"
+                                        )}/>
+                                        ) : (
                                             <item.icon className={cn(
                                             "size-4",
                                             isActive(item.url) && "size-5!"
                                         )} />
+                                        )}
                                             <span>{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>

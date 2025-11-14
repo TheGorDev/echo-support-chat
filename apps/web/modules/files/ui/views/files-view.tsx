@@ -58,7 +58,7 @@ export const FilesView = () => {
     }
 
     const handleFileDeleted = () => {
-        setFileToDelete(null)
+        setFileToDelete(null) 
     }
 
   return (
@@ -159,7 +159,7 @@ export const FilesView = () => {
                                                         <DropdownMenuContent align='end'>
                                                             <DropdownMenuItem
                                                                 className='text-destructive'
-                                                                onClick={handleDeleteFile(file)}
+                                                                onClick={()=>handleDeleteFile(file)}
                                                             >
                                                                 <TrashIcon />
                                                                 Delete

@@ -1,12 +1,12 @@
 "use client";
 
 import { api } from "@workspace/backend/_generated/api";
-import {cn} from "@workspace/ui/lib/utils"
+import { cn } from "@workspace/ui/lib/utils";
 import { Id } from "@workspace/backend/_generated/dataModel";
 import { Button } from "@workspace/ui/components/button";
 import { useAction, useMutation, useQuery } from "convex/react";
 import { MoreHorizontalIcon, Wand2Icon } from "lucide-react";
-import React, {useState } from "react";
+import React, { useState } from "react";
 import {
   AIConversation,
   AIConversationContent,
@@ -20,6 +20,8 @@ import {
   AIInputToolbar,
   AIInputTools,
 } from "@workspace/ui/components/ai/input";
+
+import { Shimmer } from "@workspace/ui/components/ai/shimmer";
 
 import {
   AIMessage,
@@ -55,22 +57,22 @@ export const ConversationIdView = ({
 
   const createMessage = useMutation(api.private.messages.create);
 
-  const [isEnhancing, setIsEnhancing] = useState(false)
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const enhanceResponse = useAction(api.private.messages.enhanceResponse);
   const handleEnhanceResponse = async () => {
-    setIsEnhancing(true)
+    setIsEnhancing(true);
     try {
-      const currentValue = form.getValues("message")
+      const currentValue = form.getValues("message");
       const response = await enhanceResponse({
-        prompt: currentValue
-      })
-      form.setValue("message", response)
+        prompt: currentValue,
+      });
+      form.setValue("message", response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setIsEnhancing(false)
+      setIsEnhancing(false);
     }
-  }
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchima>) => {
     try {
@@ -78,7 +80,7 @@ export const ConversationIdView = ({
         conversationId,
         prompt: values.message,
       });
-      form.reset()
+      form.reset();
     } catch (error) {
       console.log(error);
     }
@@ -98,38 +100,41 @@ export const ConversationIdView = ({
     handleLoadMore,
     canLoadMore,
     isLoadingMore,
-    isLoadingFirsPage
+    isLoadingFirsPage,
   } = useInfiniteScroll({
     status: messages.status,
     loadMore: messages.loadMore,
-    loadSize: 10
-  })  
+    loadSize: 10,
+  });
 
-  const [isUpdatingStatus,setIsUpdatingStatus] = useState(false)
-  const updateConversationStatus = useMutation(api.private.conversations.updateStatus)
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const updateConversationStatus = useMutation(
+    api.private.conversations.updateStatus
+  );
   const handleToggleStatus = async () => {
-    if(!conversation) return
-    setIsUpdatingStatus(true)
-    let newStatus: "unresolved" | "resolved" | "escalated"
+    if (!conversation) return;
+    setIsUpdatingStatus(true);
+    let newStatus: "unresolved" | "resolved" | "escalated";
 
-    if(conversation.status === "unresolved") {
-        newStatus = "escalated"
-    } else if(conversation.status === "escalated") {
-        newStatus = "resolved"
+    if (conversation.status === "unresolved") {
+      newStatus = "escalated";
+    } else if (conversation.status === "escalated") {
+      newStatus = "resolved";
     } else {
-        newStatus = "unresolved"
+      newStatus = "unresolved";
     }
 
     try {
-        await updateConversationStatus({conversationId,status:newStatus})
+      await updateConversationStatus({ conversationId, status: newStatus });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     } finally {
-        setIsUpdatingStatus(false)
+      setIsUpdatingStatus(false);
     }
-  }
+  };
 
-  if(conversation === undefined || messages.status === "LoadingFirstPage")  return <ConversationIdViewLoading />
+  if (conversation === undefined || messages.status === "LoadingFirstPage")
+    return <ConversationIdViewLoading />;
 
   return (
     <div className="flex h-full flex-col bg-muted">
@@ -137,33 +142,34 @@ export const ConversationIdView = ({
         <Button size="sm" variant="ghost">
           <MoreHorizontalIcon />
         </Button>
-        {
-            !!conversation && (
-                <ConversationStatusButton 
-                    onClick={handleToggleStatus}
-                    status={conversation?.status}
-                    disabled={isUpdatingStatus}
-                />
-            )
-        }
+        {!!conversation && (
+          <ConversationStatusButton
+            onClick={handleToggleStatus}
+            status={conversation?.status}
+            disabled={isUpdatingStatus}
+          />
+        )}
       </header>
       <AIConversation className="max-h-[calc(100vh-180px)]">
         <AIConversationContent>
-          <InfiniteScrollTrigger 
+          <InfiniteScrollTrigger
             canLoadMore={canLoadMore}
             isLoadingMore={isLoadingMore}
             onLoadMore={handleLoadMore}
             ref={topElementRef}
           />
-          {
-            toUIMessages(messages.results ?? [])?.map((message) => (
+          {toUIMessages(messages.results ?? [])?.map((message) => (
             <AIMessage
               from={message.role === "user" ? "assistant" : "user"}
               key={message.id}
             >
-              <AIMessageContent>
-                <AIResponse>{message.text}</AIResponse>
-              </AIMessageContent>
+              {!!message.text && (
+                <AIMessageContent>
+                  <AIResponse>{message.text}</AIResponse>
+                </AIMessageContent>
+              )}
+              {!message.text.length && (<Shimmer>Thinking...</Shimmer>)}
+
               {message.role === "user" && (
                 <DicebearAvatar
                   seed={conversation?.contactSessionId ?? "user"}
@@ -178,8 +184,7 @@ export const ConversationIdView = ({
                 />
               )}
             </AIMessage>
-          ))
-        }
+          ))}
         </AIConversationContent>
         <AIConversationScrollButton />
       </AIConversation>
@@ -217,17 +222,15 @@ export const ConversationIdView = ({
               <AIInputTools>
                 <AIInputButton
                   disabled={
-                  conversation?.status === "resolved" ||
-                  form.formState.isSubmitting ||
-                  !form.formState.isValid ||
-                  isEnhancing
+                    conversation?.status === "resolved" ||
+                    form.formState.isSubmitting ||
+                    !form.formState.isValid ||
+                    isEnhancing
                   }
                   onClick={handleEnhanceResponse}
                 >
                   <Wand2Icon />
-                  {
-                    isEnhancing ? "Enhancing..." : "Enhance"
-                  }
+                  {isEnhancing ? "Enhancing..." : "Enhance"}
                 </AIInputButton>
               </AIInputTools>
               <AIInputSubmit
@@ -248,38 +251,40 @@ export const ConversationIdView = ({
   );
 };
 
-
 export const ConversationIdViewLoading = () => {
   return (
     <div className="flex h-full flex-col bg-muted">
       <header className="flex items-center justify-between border-b bg-background p-2.5">
         <Button disabled size="sm" variant="ghost">
-            <MoreHorizontalIcon />
+          <MoreHorizontalIcon />
         </Button>
       </header>
       <AIConversation className="max-h-[calc(100vh-180px)]">
-          <AIConversationContent>
-            {
-              Array.from({length: 10}, (_, index)=>{
-                const isUser = index % 2 === 0;
-                const widths = ["w-48", "w-60", "w-72"];
-                const width = widths[index % widths.length];
-                return (
-                  <div key={index} className={cn(
-                    "group flex w-full items-end justify-end gap-2 py-2 [&>div]:max-w-[80%]",
-                    isUser ? "is-user" : "is-assistant flex-row-reverse"
-                  )}>
-                    <Skeleton className={`h-9 ${width} reounded-lg bg-neutral-200`} />
-                    <Skeleton className="size-8 rounded-full bg-neutral-200"/>
-                  </div>
-                )
-              })
-            }
-          </AIConversationContent>
+        <AIConversationContent>
+          {Array.from({ length: 10 }, (_, index) => {
+            const isUser = index % 2 === 0;
+            const widths = ["w-48", "w-60", "w-72"];
+            const width = widths[index % widths.length];
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "group flex w-full items-end justify-end gap-2 py-2 [&>div]:max-w-[80%]",
+                  isUser ? "is-user" : "is-assistant flex-row-reverse"
+                )}
+              >
+                <Skeleton
+                  className={`h-9 ${width} reounded-lg bg-neutral-200`}
+                />
+                <Skeleton className="size-8 rounded-full bg-neutral-200" />
+              </div>
+            );
+          })}
+        </AIConversationContent>
       </AIConversation>
       <div className="p-2">
         <AIInput>
-          <AIInputTextarea 
+          <AIInputTextarea
             disabled
             placeholder="Type your response as an operator"
           />
@@ -290,5 +295,5 @@ export const ConversationIdViewLoading = () => {
         </AIInput>
       </div>
     </div>
-  )
-}
+  );
+};

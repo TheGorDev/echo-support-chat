@@ -7,6 +7,7 @@ import { components } from "@workspace/backend/_generated/api.js";
 import { saveMessage } from "@convex-dev/agent";
 import { resolveConversation } from "@workspace/backend/system/ai/tools/resolveConversation.js";
 import { escalateConversation } from "@workspace/backend/system/ai/tools/escalateConversation.js";
+import { search } from "@workspace/backend/system/ai/tools/search.js";
 
 export const create = action({
   args: {
@@ -44,46 +45,24 @@ export const create = action({
     const shouldTriggerAgent = conversation.status === "unresolved";
 
     if (shouldTriggerAgent) {
-        await supportAgent.generateText(
-          ctx,
-          { threadId: args.threadId },
-          {
-            prompt: args.prompt,
-            tools: {
-              resolveConversation,
-              escalateConversation,
-            },
-          }
-        );
+      await supportAgent.generateText(
+        ctx,
+        { threadId: args.threadId },
+        {
+          prompt: args.prompt,
+          tools: {
+            resolveConversation,
+            escalateConversation,
+            search,
+          },
+        }
+      );
     } else {
-        await saveMessage(ctx, components.agent, {
-            threadId: args.threadId,
-            prompt: args.prompt
-        })
+      await saveMessage(ctx, components.agent, {
+        threadId: args.threadId,
+        prompt: args.prompt,
+      });
     }
-
-    // if (conversation.status === "escalated") {
-    //   await saveMessage(ctx, components.agent, {
-    //     threadId: conversation.threadId,
-    //     agentName: contactSession.name,
-    //     message: {
-    //       role: "user",
-    //       content: args.prompt,
-    //     },
-    //   });
-    // } else {
-    //   await supportAgent.generateText(
-    //     ctx,
-    //     { threadId: args.threadId },
-    //     {
-    //       prompt: args.prompt,
-    //       tools: {
-    //         resolveConversation,
-    //         escalateConversation,
-    //       },
-    //     }
-    //   );
-    // }
   },
 });
 

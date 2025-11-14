@@ -3,12 +3,12 @@ import { generateText } from "ai";
 import { StorageActionWriter } from "convex/server";
 import { assert } from "convex-helpers"
 import { Id } from "@workspace/backend/_generated/dataModel.js";
-import { extractText } from "@convex-dev/agent";
+// import { extractText } from "@convex-dev/agent";
 
 const AI_MODELS = {
-    image: openai.chat("gpt-4o-mini"),
-    pdf: openai.chat("gpt-4o"),
-    html: openai.chat("gpt-4o")
+    image: openai.languageModel("gpt-4o-mini"),
+    pdf: openai.languageModel("gpt-4o"),
+    html: openai.languageModel("gpt-4o")
 } as const;
 
 const SUPPORTED_IMAGE_TYPES = [
@@ -98,7 +98,7 @@ async function extractPdfText(url: string, mimeType: string, filename: string): 
         messages: [{
             role: "user",
             content: [
-                {type: "file", data: new URL(url), mimeType, filename},
+                {type: "file", data: new URL(url), mediaType: mimeType, filename},
                 {
                     type: "text",
                     text: "Extract the text from the PDF and print it without explaining you'll do so."

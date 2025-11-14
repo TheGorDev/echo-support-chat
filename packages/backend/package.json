@@ -16,9 +16,9 @@
   "dependencies": {
     "@ai-sdk/openai": "2.0.65",
     "@clerk/backend": "^2.20.0",
-    "@convex-dev/agent": "^0.1.16",
+    "@convex-dev/agent": "^0.2.12",
     "@convex-dev/rag": "^0.5.4",
-    "ai": "4.3.19",
+    "ai": "5.0.93",
     "convex": "^1.28.2",
     "convex-helpers": "^0.1.104",
     "openai": "^6.8.1",
