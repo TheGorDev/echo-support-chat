@@ -91,6 +91,14 @@ async function extractTextFileContent(
     return text;
 }
 
+/**
+ * Extracts text content from a PDF located at the given URL.
+ *
+ * @param url - Publicly accessible URL of the PDF file
+ * @param mimeType - The PDF's MIME type (for example, "application/pdf")
+ * @param filename - Filename to include with the file payload
+ * @returns The extracted textual content of the PDF
+ */
 async function extractPdfText(url: string, mimeType: string, filename: string): Promise<string> {
     const result = await generateText({
         model: AI_MODELS.pdf,
@@ -124,4 +132,3 @@ async function extractImageText(url: string): Promise<string> {
 
     return result.text
 }
-
