@@ -16,6 +16,12 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+/**
+ * Defines the application's root HTML layout and wraps page content with authentication and application providers.
+ *
+ * @param children - The page content to render inside the providers.
+ * @returns The root HTML element containing the configured body, ClerkProvider, Providers, Toaster, and the provided children.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
