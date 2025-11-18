@@ -14,6 +14,8 @@ import {
 import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { ConnectDialog } from "@/modules/plugins/ui/components/connect-dialog";
+import VapiConnectedView from "../components/vapi-connected-view";
+import { DisconnectDialog } from "../components/disconnect-dialog";
 
 const VapiFeatures: Feature[] = [
   {
@@ -42,12 +44,18 @@ export const VapiView = () => {
   const vapiPlugin = useQuery(api.private.plugins.getOne, { service: "vapi" });
 
   const [connectOpen, setConnectOpen] = useState(false);
+  const [removeOpen, setRemoveOpen] = useState(false)
 
   return (
     <>
       <ConnectDialog
         open={connectOpen}
         onOpenChange={setConnectOpen}
+        service="vapi"
+      />
+      <DisconnectDialog
+        open={removeOpen}
+        onOpenChange={setRemoveOpen}
         service="vapi"
       />
       <div className="flex min-h-screen flex-col bg-muted p-8">
@@ -60,7 +68,7 @@ export const VapiView = () => {
           </div>
 
           {vapiPlugin ? (
-            <p>Connected</p>
+            <VapiConnectedView onDisconnect={()=>setRemoveOpen(true)}/>
           ) : (
             <div className="mt-8">
               <PluginCard

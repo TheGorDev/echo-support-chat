@@ -19,6 +19,7 @@
     "@clerk/backend": "^2.20.0",
     "@convex-dev/agent": "^0.2.12",
     "@convex-dev/rag": "^0.5.4",
+    "@vapi-ai/server-sdk": "^0.10.2",
     "ai": "5.0.93",
     "convex": "^1.28.2",
     "convex-helpers": "^0.1.104",
